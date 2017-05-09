@@ -10,32 +10,189 @@ namespace OpenHMDNet
     public class OpenHMD
     {
         #region OpenHMDDll Imports
-        [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern private IntPtr ohmd_ctx_create();
+        public class OpenHMDWin
+        {
+            [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern public IntPtr ohmd_ctx_create();
 
-        [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern private void ohmd_ctx_destroy(IntPtr ctxHandle);
+            [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern public void ohmd_ctx_destroy(IntPtr ctxHandle);
 
-        [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern private string ohmd_ctx_get_error(IntPtr ctxHandle);
+            [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern public string ohmd_ctx_get_error(IntPtr ctxHandle);
 
-        [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern private int ohmd_ctx_probe(IntPtr ctxHandle);
+            [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern public int ohmd_ctx_probe(IntPtr ctxHandle);
 
-        [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern private IntPtr ohmd_list_open_device(IntPtr ctxHandle, int deviceIndex);
+            [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern public IntPtr ohmd_list_open_device(IntPtr ctxHandle, int deviceIndex);
 
-        [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern private IntPtr ohmd_list_gets(IntPtr ctxHandle, int deviceIndex, ohmd_string_value val);
+            [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern public IntPtr ohmd_list_gets(IntPtr ctxHandle, int deviceIndex, ohmd_string_value val);
 
-        [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern private int ohmd_device_geti(IntPtr device, ohmd_int_value val, out int out_value);
+            [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern public int ohmd_device_geti(IntPtr device, ohmd_int_value val, out int out_value);
 
-        [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern private int ohmd_device_getf(IntPtr device, ohmd_float_value val, IntPtr out_value);
+            [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern public int ohmd_device_getf(IntPtr device, ohmd_float_value val, IntPtr out_value);
 
-        [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern private void ohmd_ctx_update(IntPtr ctxHandle);
+            [DllImport("libopenhmd.dll", CallingConvention = CallingConvention.Cdecl)]
+            static extern public void ohmd_ctx_update(IntPtr ctxHandle);
+        }
+
+        public class OpenHMDLin
+        {
+            [DllImport("libopenhmd.so", CallingConvention = CallingConvention.Cdecl)]
+            static extern public IntPtr ohmd_ctx_create();
+
+            [DllImport("libopenhmd.so", CallingConvention = CallingConvention.Cdecl)]
+            static extern public void ohmd_ctx_destroy(IntPtr ctxHandle);
+
+            [DllImport("libopenhmd.so", CallingConvention = CallingConvention.Cdecl)]
+            static extern public string ohmd_ctx_get_error(IntPtr ctxHandle);
+
+            [DllImport("libopenhmd.so", CallingConvention = CallingConvention.Cdecl)]
+            static extern public int ohmd_ctx_probe(IntPtr ctxHandle);
+
+            [DllImport("libopenhmd.so", CallingConvention = CallingConvention.Cdecl)]
+            static extern public IntPtr ohmd_list_open_device(IntPtr ctxHandle, int deviceIndex);
+
+            [DllImport("libopenhmd.so", CallingConvention = CallingConvention.Cdecl)]
+            static extern public IntPtr ohmd_list_gets(IntPtr ctxHandle, int deviceIndex, ohmd_string_value val);
+
+            [DllImport("libopenhmd.so", CallingConvention = CallingConvention.Cdecl)]
+            static extern public int ohmd_device_geti(IntPtr device, ohmd_int_value val, out int out_value);
+
+            [DllImport("libopenhmd.so", CallingConvention = CallingConvention.Cdecl)]
+            static extern public int ohmd_device_getf(IntPtr device, ohmd_float_value val, IntPtr out_value);
+
+            [DllImport("libopenhmd.so", CallingConvention = CallingConvention.Cdecl)]
+            static extern public void ohmd_ctx_update(IntPtr ctxHandle);
+        }
+
+        static private IntPtr ohmd_ctx_create()
+        {
+            if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_windows)
+            {
+                return OpenHMDWin.ohmd_ctx_create();
+            }
+            else if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_linux)
+            {
+                return OpenHMDLin.ohmd_ctx_create();
+            }
+            throw new Exception("Critical error, please check if the OpenHMD library is loaded correctly.");
+        }
+
+        static private void ohmd_ctx_destroy(IntPtr ctxHandle)
+        {
+            if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_windows)
+            {
+                OpenHMDWin.ohmd_ctx_destroy(ctxHandle);
+            }
+            else if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_linux)
+            {
+                OpenHMDLin.ohmd_ctx_destroy(ctxHandle);
+            }
+            throw new Exception("Critical error, please check if the OpenHMD library is loaded correctly.");
+        }
+
+        static private string ohmd_ctx_get_error(IntPtr ctxHandle)
+        {
+            if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_windows)
+            {
+                return OpenHMDWin.ohmd_ctx_get_error(ctxHandle);
+            }
+            else if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_linux)
+            {
+                return OpenHMDLin.ohmd_ctx_get_error(ctxHandle);
+            }
+            throw new Exception("Critical error, please check if the OpenHMD library is loaded correctly.");
+        }
+
+        static private int ohmd_ctx_probe(IntPtr ctxHandle)
+        {
+            if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_windows)
+            {
+                return OpenHMDWin.ohmd_ctx_probe(ctxHandle);
+            }
+            else if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_linux)
+            {
+                return OpenHMDLin.ohmd_ctx_probe(ctxHandle);
+            }
+            throw new Exception("Critical error, please check if the OpenHMD library is loaded correctly.");
+        }
+
+        static private IntPtr ohmd_list_open_device(IntPtr ctxHandle, int deviceIndex)
+        {
+            if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_windows)
+            {
+                return OpenHMDWin.ohmd_list_open_device(ctxHandle, deviceIndex);
+            }
+            else if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_linux)
+            {
+                return OpenHMDLin.ohmd_list_open_device(ctxHandle, deviceIndex);
+            }
+            throw new Exception("Critical error, please check if the OpenHMD library is loaded correctly.");
+        }
+
+        static private IntPtr ohmd_list_gets(IntPtr ctxHandle, int deviceIndex, ohmd_string_value val)
+        {
+            if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_windows)
+            {
+                return OpenHMDWin.ohmd_list_gets(ctxHandle, deviceIndex, val);
+            }
+            else if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_linux)
+            {
+                return OpenHMDLin.ohmd_list_gets(ctxHandle, deviceIndex, val);
+            }
+            throw new Exception("Critical error, please check if the OpenHMD library is loaded correctly.");
+        }
+
+        static private int ohmd_device_geti(IntPtr device, ohmd_int_value val)
+        {
+            if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_windows)
+            {
+                //abstract opgeschreven.
+                int out_value;
+                if (OpenHMDLin.ohmd_device_geti(device, val, out out_value) >= 0)
+                    return out_value;
+            }
+            else if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_linux)
+            {
+                //abstract opgeschreven.
+                int out_value;
+                if (OpenHMDLin.ohmd_device_geti(device, val, out out_value) >= 0)
+                    return out_value;
+            }
+            throw new Exception("Critical error, please check if the OpenHMD library is loaded correctly.");
+        }
+
+        static private int ohmd_device_getf(IntPtr device, ohmd_float_value val, IntPtr out_value)
+        {
+            if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_windows)
+            {
+                return OpenHMDWin.ohmd_device_getf(device, val, out_value);
+            }
+            else if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_linux)
+            {
+                return OpenHMDLin.ohmd_device_getf(device, val, out_value);
+            }
+            throw new Exception("Critical error, please check if the OpenHMD library is loaded correctly.");
+        }
+
+        static private void ohmd_ctx_update(IntPtr ctxHandle)
+        {
+            if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_windows)
+            {
+                OpenHMDWin.ohmd_ctx_update(ctxHandle);
+            }
+            else if (Utility.getCurrentPlatform() == Utility.currentPlatform.is_linux)
+            {
+                OpenHMDLin.ohmd_ctx_update(ctxHandle);
+            }
+            throw new Exception("Critical error, please check if the OpenHMD library is loaded correctly.");
+        }
+
 
         /** Return status codes, used for all functions that can return an error. */
         public enum ohmd_status
@@ -218,8 +375,7 @@ namespace OpenHMDNet
                 throw new DeviceNotOpenedException(String.Format("Device with index {0} and name {1} is not yet openend. Please open first.", device.Index, device.Product));
             }
             IntPtr hmd = openedDevices[device.Index];
-            int output = 0;
-            ohmd_device_geti(hmd, informationType, out output);
+            int output = ohmd_device_geti(hmd, informationType);
 
             return output;
         }

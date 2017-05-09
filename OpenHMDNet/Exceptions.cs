@@ -25,4 +25,9 @@ namespace OpenHMDNet
     {
         public DeviceNotOpenedException(string message) : base(message) { }
     }
+
+    public class CanNotFindPlatform : Exception
+    {
+        public CanNotFindPlatform(string message) : base(message) { }
+    }
 }
