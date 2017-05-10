@@ -1,34 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace OpenHMDNet
 {
     public class Utility
     {
-
-
         public static bool isLinux()
         {
             return true;
         }
 
-        public enum currentPlatform
+        public enum Platform
         {
-            is_linux,
-            is_windows,
-            is_mac,
-            is_unknown,
+            LINUX,
+            WINDOWS,
+            MAC,
+            UNKNOWN,
         }
 
-        public static currentPlatform getCurrentPlatform()
+        public static Platform getCurrentPlatform()
         {
             string windir = Environment.GetEnvironmentVariable("windir");
             if (!string.IsNullOrEmpty(windir) && windir.Contains(@"\") && Directory.Exists(windir))
             {
-                return currentPlatform.is_windows;
+                return Platform.WINDOWS;
             }
             else if (File.Exists(@"/proc/sys/kernel/ostype"))
             {
@@ -36,7 +31,7 @@ namespace OpenHMDNet
                 if (osType.StartsWith("Linux", StringComparison.OrdinalIgnoreCase))
                 {
                     //Includes Android as well
-                    return currentPlatform.is_linux;
+                    return Platform.LINUX;
                 }
                 else
                 {
@@ -46,7 +41,7 @@ namespace OpenHMDNet
             else if (File.Exists(@"/System/Library/CoreServices/SystemVersion.plist"))
             {
                 //Includes iOS as well
-                return currentPlatform.is_mac;
+                return Platform.MAC;
             }
             else
             {
