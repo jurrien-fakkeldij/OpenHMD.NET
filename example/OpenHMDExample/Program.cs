@@ -61,5 +61,4 @@ namespace OpenHMDExample
             Console.ReadLine();
         }
     }
-    }
 }
