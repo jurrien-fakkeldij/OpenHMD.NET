@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenHMDNet
 {
@@ -24,5 +20,10 @@ namespace OpenHMDNet
     public class DeviceNotOpenedException : Exception
     {
         public DeviceNotOpenedException(string message) : base(message) { }
+    }
+
+    public class CanNotFindPlatform : Exception
+    {
+        public CanNotFindPlatform(string message) : base(message) { }
     }
 }

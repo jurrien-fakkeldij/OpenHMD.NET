@@ -26,19 +26,19 @@ namespace OpenHMDExample
 
             driver.openDevice(selectedDevice);
 
-            Console.WriteLine("Horizontal Resolution: " + driver.getIntInformation(selectedDevice, OpenHMD.ohmd_int_value.OHMD_SCREEN_HORIZONTAL_RESOLUTION));
-            Console.WriteLine("Vertical   Resolution: " + driver.getIntInformation(selectedDevice, OpenHMD.ohmd_int_value.OHMD_SCREEN_VERTICAL_RESOLUTION));
+            Console.WriteLine("Horizontal Resolution: " + driver.getIntInformation(selectedDevice, ohmd_int_value.OHMD_SCREEN_HORIZONTAL_RESOLUTION));
+            Console.WriteLine("Vertical   Resolution: " + driver.getIntInformation(selectedDevice, ohmd_int_value.OHMD_SCREEN_VERTICAL_RESOLUTION));
 
-            Console.WriteLine("hsize: " + driver.getFloatInformation(selectedDevice, 1, OpenHMD.ohmd_float_value.OHMD_SCREEN_HORIZONTAL_SIZE)[0]);
-            Console.WriteLine("vsize: " + driver.getFloatInformation(selectedDevice, 1, OpenHMD.ohmd_float_value.OHMD_SCREEN_VERTICAL_SIZE)[0]);
-            Console.WriteLine("lens separation: " + driver.getFloatInformation(selectedDevice, 1, OpenHMD.ohmd_float_value.OHMD_LENS_HORIZONTAL_SEPARATION)[0]);
-            Console.WriteLine("lens vcenter: " + driver.getFloatInformation(selectedDevice, 1, OpenHMD.ohmd_float_value.OHMD_LENS_VERTICAL_POSITION)[0]);
-            Console.WriteLine("left eye fov: " + driver.getFloatInformation(selectedDevice, 1, OpenHMD.ohmd_float_value.OHMD_LEFT_EYE_FOV)[0]);
-            Console.WriteLine("right eye fov: " + driver.getFloatInformation(selectedDevice, 1, OpenHMD.ohmd_float_value.OHMD_RIGHT_EYE_FOV)[0]);
-            Console.WriteLine("left eye aspect: " + driver.getFloatInformation(selectedDevice, 1, OpenHMD.ohmd_float_value.OHMD_LEFT_EYE_ASPECT_RATIO)[0]);
-            Console.WriteLine("right eye aspect: " + driver.getFloatInformation(selectedDevice, 1, OpenHMD.ohmd_float_value.OHMD_RIGHT_EYE_ASPECT_RATIO)[0]);
+            Console.WriteLine("hsize: " + driver.getFloatInformation(selectedDevice, 1, ohmd_float_value.OHMD_SCREEN_HORIZONTAL_SIZE)[0]);
+            Console.WriteLine("vsize: " + driver.getFloatInformation(selectedDevice, 1, ohmd_float_value.OHMD_SCREEN_VERTICAL_SIZE)[0]);
+            Console.WriteLine("lens separation: " + driver.getFloatInformation(selectedDevice, 1, ohmd_float_value.OHMD_LENS_HORIZONTAL_SEPARATION)[0]);
+            Console.WriteLine("lens vcenter: " + driver.getFloatInformation(selectedDevice, 1, ohmd_float_value.OHMD_LENS_VERTICAL_POSITION)[0]);
+            Console.WriteLine("left eye fov: " + driver.getFloatInformation(selectedDevice, 1, ohmd_float_value.OHMD_LEFT_EYE_FOV)[0]);
+            Console.WriteLine("right eye fov: " + driver.getFloatInformation(selectedDevice, 1, ohmd_float_value.OHMD_RIGHT_EYE_FOV)[0]);
+            Console.WriteLine("left eye aspect: " + driver.getFloatInformation(selectedDevice, 1, ohmd_float_value.OHMD_LEFT_EYE_ASPECT_RATIO)[0]);
+            Console.WriteLine("right eye aspect: " + driver.getFloatInformation(selectedDevice, 1, ohmd_float_value.OHMD_RIGHT_EYE_ASPECT_RATIO)[0]);
 
-            float[] distortion = driver.getFloatInformation(selectedDevice, 6, OpenHMD.ohmd_float_value.OHMD_DISTORTION_K);
+            float[] distortion = driver.getFloatInformation(selectedDevice, 6, ohmd_float_value.OHMD_DISTORTION_K);
             Console.Write("distortion k: ");
             foreach (float fl in distortion)
                 Console.Write(fl + " ");
@@ -47,7 +47,7 @@ namespace OpenHMDExample
             for (int i = 0; i < 10; i++)
             {
                 driver.update();
-                float[] rotation = driver.getFloatInformation(selectedDevice, 4, OpenHMD.ohmd_float_value.OHMD_ROTATION_QUAT);
+                float[] rotation = driver.getFloatInformation(selectedDevice, 4, ohmd_float_value.OHMD_ROTATION_QUAT);
 
                 Console.Write("rotation quat: ");
                 foreach (float fl in rotation)
@@ -60,6 +60,5 @@ namespace OpenHMDExample
 
             Console.ReadLine();
         }
-    }
     }
 }
